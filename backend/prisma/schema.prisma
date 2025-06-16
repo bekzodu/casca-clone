@@ -5,14 +5,59 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 model LoanApplication {
-  id           Int      @id @default(autoincrement())
-  name         String
-  businessType String
-  amount       Float
-  reason       String
-  createdAt    DateTime @default(now())
+  id            String   @id @default(uuid())
+  name          String
+  idNumber      String   // Added this field
+  businessType  String
+  amount        Float
+  reason        String
+  status        LoanStatus @default(PENDING)
+  createdAt     DateTime @default(now())
 }
 
+// NEW table for historical loan data - completely separate
+model HistoricalLoanData {
+  id                String   @id @default(uuid())
+  originalId        String   @unique // Original loan ID from the dataset
+  memberId          String?  // Member ID from the dataset
+  loanAmount        Float
+  fundedAmount      Float?
+  fundedAmountInv   Float?
+  term              String?
+  intRate           Float?
+  installment       Float?
+  grade             String?
+  subGrade          String?
+  empTitle          String?
+  empLength         String?
+  homeOwnership     String?
+  annualInc         Float?
+  verificationStatus String?
+  issueDate         String?
+  loanStatus        String?
+  purpose           String?
+  title             String?
+  zipCode           String?
+  addrState         String?
+  dti               Float?
+  delinq2Yrs        Int?
+  earliestCrLine    String?
+  inqLast6Mths      Int?
+  openAcc           Int?
+  pubRec            Int?
+  revolBal          Float?
+  revolUtil         Float?
+  totalAcc          Int?
+  initialListStatus String?
+  importedAt        DateTime @default(now())
+}
+
+enum LoanStatus {
+  PENDING
+  REVIEWING
+  APPROVED
+  DENIED
+}
 
 generator client {
   provider = "prisma-client-js"

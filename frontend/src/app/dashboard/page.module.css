@@ -128,12 +128,17 @@
     color: #d69e2e;
   }
   
+  .statusReviewing {
+    background-color: #ebf8ff;
+    color: #3182ce;
+  }
+  
   .statusApproved {
     background-color: #f0fff4;
     color: #38a169;
   }
   
-  .statusRejected {
+  .statusDenied {
     background-color: #fed7d7;
     color: #e53e3e;
   }
@@ -171,6 +176,322 @@
     margin: 0.5rem 0 0 0;
   }
   
+  /* Name button styling */
+  .nameButton {
+    background: none;
+    border: none;
+    color: #667eea;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+  }
+  
+  .nameButton:hover {
+    color: #764ba2;
+    text-decoration: none;
+  }
+  
+  /* Modal overlay */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  
+  /* Modal */
+  .modal {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
+  }
+  
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  /* Modal header */
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .modalTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #718096;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .closeButton:hover {
+    background: #f7fafc;
+    color: #2d3748;
+  }
+  
+  /* Modal content */
+  .modalContent {
+    padding: 2rem;
+  }
+  
+  .detailsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .detailItem {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .reasonItem {
+    grid-column: 1 / -1;
+  }
+  
+  .detailLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  
+  .detailValue {
+    font-size: 1rem;
+    color: #2d3748;
+    padding: 0.75rem 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .amountValue {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #38a169;
+  }
+  
+  /* Status section */
+  .statusSection {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 2rem;
+  }
+  
+  .currentStatus {
+    margin-bottom: 1.5rem;
+  }
+  
+  .statusButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .statusButton {
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    color: #4a5568;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: capitalize;
+  }
+  
+  .statusButton:hover:not(:disabled) {
+    border-color: #667eea;
+    background: #f8f9ff;
+    color: #667eea;
+  }
+  
+  .statusButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .statusButtonActive {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+  
+  .statusButtonActive:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+  }
+  
+  /* Header buttons container */
+  .headerButtons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* History button */
+  .historyButton {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .historyButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+  }
+  
+  /* History modal - larger than regular modal */
+  .historyModal {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 1200px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
+  }
+  
+  .historyModalContent {
+    padding: 2rem;
+  }
+  
+  /* History stats */
+  .historyStats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f7fafc;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .historyStatItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .historyStatLabel {
+    font-size: 0.875rem;
+    color: #718096;
+    font-weight: 500;
+  }
+  
+  .historyStatValue {
+    font-size: 1.125rem;
+    color: #2d3748;
+    font-weight: 700;
+  }
+  
+  /* History table */
+  .historyTableContainer {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  
+  .historyTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  
+  .paginationButton {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .paginationButton:hover:not(:disabled) {
+    background: #5a67d8;
+    transform: translateY(-1px);
+  }
+  
+  .paginationButton:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .paginationInfo {
+    color: #4a5568;
+    font-weight: 600;
+    min-width: 120px;
+    text-align: center;
+  }
+  
   @media (max-width: 768px) {
     .container {
       padding: 1rem;
@@ -196,5 +517,57 @@
   
     .stats {
       grid-template-columns: 1fr;
+    }
+  
+    .modal {
+      margin: 1rem;
+      max-height: calc(100vh - 2rem);
+    }
+  
+    .modalHeader {
+      padding: 1rem 1.5rem;
+    }
+  
+    .modalContent {
+      padding: 1.5rem;
+    }
+  
+    .detailsGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  
+    .statusButtons {
+      grid-template-columns: 1fr;
+    }
+  
+    .headerButtons {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .historyButton,
+    .applyButton {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .historyModal {
+      width: 98%;
+      margin: 1rem;
+    }
+  
+    .historyStats {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .pagination {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .paginationInfo {
+      order: -1;
     }
   }

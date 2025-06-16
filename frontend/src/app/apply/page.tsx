@@ -6,36 +6,121 @@ import styles from './page.module.css'
 export default function LoanFormPage() {
   const [formData, setFormData] = useState({
     name: '',
+    idNumber: '',
     businessType: '',
+    customBusinessType: '',
     amount: '',
     reason: '',
   })
 
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const businessTypes = [
+    'Restaurant',
+    'Technology Startup',
+    'Retail Store',
+    'E-commerce',
+    'Manufacturing',
+    'Construction',
+    'Consulting Services',
+    'Healthcare Services',
+    'Real Estate',
+    'Transportation',
+    'Agriculture',
+    'Beauty & Personal Care',
+    'Education & Training',
+    'Financial Services',
+    'Legal Services',
+    'Marketing & Advertising',
+    'Entertainment',
+    'Fitness & Wellness',
+    'Auto Services',
+    'Professional Services',
+    'Food & Beverage',
+    'Home Services',
+    'Other'
+  ]
+
+  const formatNumber = (value: string): string => {
+    // Remove all non-digit characters
+    const numericValue = value.replace(/[^\d]/g, '')
+    
+    // Return empty string if no digits
+    if (!numericValue) return ''
+    
+    // Check if the numeric value exceeds 1 million
+    const numericAmount = parseInt(numericValue, 10)
+    if (numericAmount > 1000000) {
+      return '1,000,000' // Cap at 1 million
+    }
+    
+    // Add commas for thousands
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    
+    if (name === 'amount') {
+      // Store the formatted value for display
+      setFormData(prev => ({ ...prev, [name]: formatNumber(value) }))
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
+      // Remove commas from amount before parsing
+      const numericAmount = formData.amount.replace(/,/g, '')
+      const businessType = formData.businessType === 'Other' ? formData.customBusinessType : formData.businessType
+      
+      console.log('Submitting data:', {
+        name: formData.name,
+        idNumber: formData.idNumber,
+        businessType,
+        amount: parseFloat(numericAmount),
+        reason: formData.reason,
+      })
+      
       const res = await fetch('http://localhost:4000/loan-applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
-          amount: parseFloat(formData.amount),
+          name: formData.name,
+          idNumber: formData.idNumber,
+          businessType,
+          amount: parseFloat(numericAmount),
+          reason: formData.reason,
         }),
       })
 
-      if (!res.ok) throw new Error('Failed to submit')
+      console.log('Response status:', res.status)
+      console.log('Response headers:', res.headers)
+      
+      // Log the actual response text to see what we're getting
+      const responseText = await res.text()
+      console.log('Raw response:', responseText)
+
+      if (!res.ok) {
+        throw new Error(`Failed to submit: ${res.status} ${responseText}`)
+      }
+
+      // Try to parse as JSON
+      let responseData
+      try {
+        responseData = JSON.parse(responseText)
+      } catch (parseError) {
+        console.error('Failed to parse response as JSON:', parseError)
+        throw new Error('Server returned invalid JSON')
+      }
 
       setStatus('success')
-      setFormData({ name: '', businessType: '', amount: '', reason: '' })
-    } catch {
+      setFormData({ name: '', idNumber: '', businessType: '', customBusinessType: '', amount: '', reason: '' })
+    } catch (error) {
+      console.error('Submission error:', error)
       setStatus('error')
     }
   }
@@ -62,15 +147,45 @@ export default function LoanFormPage() {
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Business Type</label>
+            <label className={styles.label}>ID Number</label>
             <input
-              name="businessType"
-              value={formData.businessType}
+              name="idNumber"
+              value={formData.idNumber}
               onChange={handleChange}
-              placeholder="e.g., Restaurant, Tech Startup, Retail"
+              placeholder="Enter your ID number (SSN, Driver's License, etc.)"
               required
               className={styles.input}
             />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Business Type</label>
+            <select
+              name="businessType"
+              value={formData.businessType}
+              onChange={handleChange}
+              required
+              className={styles.select}
+            >
+              <option value="">Select your business type</option>
+              {businessTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+            
+            {formData.businessType === 'Other' && (
+              <input
+                name="customBusinessType"
+                value={formData.customBusinessType}
+                onChange={handleChange}
+                placeholder="Please specify your business type"
+                required
+                className={styles.input}
+                style={{ marginTop: '0.5rem' }}
+              />
+            )}
           </div>
 
           <div className={styles.inputGroup}>
@@ -79,12 +194,15 @@ export default function LoanFormPage() {
               name="amount"
               value={formData.amount}
               onChange={handleChange}
-              placeholder="50000"
-              type="number"
-              min="1000"
+              placeholder="50,000"
+              type="text"
               required
               className={styles.input}
+              inputMode="numeric"
             />
+            <small style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.25rem' }}>
+              Maximum loan amount: $1,000,000
+            </small>
           </div>
 
           <div className={styles.inputGroup}>

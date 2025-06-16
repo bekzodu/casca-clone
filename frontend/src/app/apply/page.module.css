@@ -1,6 +1,6 @@
 .container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f8f9fa;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,9 +10,10 @@
   
   .formCard {
     background: white;
-    border-radius: 16px;
+    border-radius: 8px;
     padding: 3rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    border: 1px solid #e1e5e9;
     width: 100%;
     max-width: 500px;
   }
@@ -53,27 +54,33 @@
     color: #4a5568;
   }
   
-  .input {
+  .input, .select {
     width: 100%;
     padding: 0.875rem 1rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
     font-size: 1rem;
     transition: all 0.2s ease;
     outline: none;
     box-sizing: border-box;
+    background-color: white;
+    color: #1f2937;
   }
   
-  .input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  .input:focus, .select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .select {
+    cursor: pointer;
   }
   
   .textarea {
     width: 100%;
     padding: 0.875rem 1rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
     font-size: 1rem;
     transition: all 0.2s ease;
     outline: none;
@@ -81,19 +88,21 @@
     font-family: inherit;
     box-sizing: border-box;
     min-height: 120px;
+    background-color: white;
+    color: #1f2937;
   }
   
   .textarea:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
   
   .submitButton {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #1f2937;
     color: white;
     border: none;
     padding: 1rem 2rem;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
@@ -102,8 +111,9 @@
   }
   
   .submitButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    background: #374151;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .submitButton:active {
@@ -113,29 +123,29 @@
   .successMessage {
     margin-top: 1.5rem;
     padding: 1rem;
-    background-color: #f0fff4;
-    border-left: 4px solid #38a169;
-    border-radius: 4px;
+    background-color: #f0f9ff;
+    border: 1px solid #7dd3fc;
+    border-radius: 6px;
   }
   
   .successText {
-    color: #2f855a;
+    color: #0369a1;
     margin: 0;
-    font-weight: 600;
+    font-weight: 500;
   }
   
   .errorMessage {
     margin-top: 1.5rem;
     padding: 1rem;
-    background-color: #fed7d7;
-    border-left: 4px solid #e53e3e;
-    border-radius: 4px;
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
   }
   
   .errorText {
-    color: #c53030;
+    color: #dc2626;
     margin: 0;
-    font-weight: 600;
+    font-weight: 500;
   }
   
   .dashboardLink {
@@ -144,7 +154,7 @@
   }
   
   .dashboardLink a {
-    color: #667eea;
+    color: #3b82f6;
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95rem;
@@ -152,7 +162,7 @@
   }
   
   .dashboardLink a:hover {
-    color: #5a67d8;
+    color: #1d4ed8;
   }
   
   @media (max-width: 768px) {
