@@ -26,8 +26,8 @@ A modern loan application management system built with Next.js and Express.js th
 
 ### Prerequisites
 - Node.js 18+ and npm
+- **PostgreSQL database** (local or cloud instance)
 - Firebase account (for backend services)
-- Database setup (via Prisma)
 
 ### Installation
 
@@ -37,51 +37,53 @@ A modern loan application management system built with Next.js and Express.js th
    cd casca-clone
    ```
 
-2. **Install all dependencies**
+2. **Setup PostgreSQL Database**
+   
+   **Option A: Local PostgreSQL**
+   ```bash
+   # Install PostgreSQL (macOS with Homebrew)
+   brew install postgresql
+   brew services start postgresql
+   
+   # Create database
+   createdb casca_clone_db
+   ```
+   
+   **Option B: Cloud PostgreSQL (recommended)**
+   - Use services like [Supabase](https://supabase.com), [Railway](https://railway.app), or [Neon](https://neon.tech)
+   - Create a new PostgreSQL database
+   - Copy the connection string
+
+3. **Install all dependencies**
    ```bash
    npm run install:all
    ```
 
-3. **Environment Setup**
+4. **Environment Setup**
    ```bash
    # Backend environment
    cp backend/.firebase.env.example backend/.firebase.env
    # Add your Firebase configuration
+   
+   # Database environment
+   cd backend
+   echo "DATABASE_URL=postgresql://username:password@localhost:5432/casca_clone_db" > .env
+   # Replace with your actual database connection string
    ```
 
-4. **Database Setup**
+5. **Database Setup**
    ```bash
    cd backend
    npx prisma migrate dev
    npx prisma generate
    ```
 
-5. **Start Development Servers**
+6. **Start Development Servers**
    ```bash
    npm run dev
    ```
 
 This will start both frontend (http://localhost:3000) and backend (http://localhost:4000) concurrently.
-
-
-casca-clone/
-├── frontend/ # Next.js React application
-│ ├── src/
-│ │ ├── app/
-│ │ │ ├── apply/ # Loan application form
-│ │ │ ├── dashboard/ # Admin dashboard
-│ │ │ └── globals.css # Global styles
-│ │ └── components/ # Reusable React components
-│ ├── public/ # Static assets
-│ └── package.json
-├── backend/ # Express.js API server
-│ ├── src/ # TypeScript source code
-│ ├── routes/ # API route handlers
-│ ├── prisma/ # Database schema and migrations
-│ ├── firebase/ # Firebase configuration
-│ ├── data/ # Data processing scripts
-│ └── package.json
-└── package.json # Root package with shared scripts## 🏗️ Project Structure
 
 
 ## 🛠️ Technology Stack
